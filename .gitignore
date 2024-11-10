@@ -1,0 +1,14 @@
+node_modules
+# Keep environment variables out of version control
+.env
+
+# Ignore the database file
+*.db
+
+# Ignore the log files
+*.log
+
+downloads
+temp
+dist
+geckodriver

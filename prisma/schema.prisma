@@ -1,0 +1,57 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Politician {
+  id                         Int                         @id @default(autoincrement())
+  uuid                       String                      @unique
+  firstName                  String
+  lastName                   String
+  fullTitle                  String
+  financialDisclosureReports FinancialDisclosureReport[]
+  createdAt                  DateTime                    @default(now())
+  updatedAt                  DateTime                    @updatedAt
+}
+
+model Transaction {
+  id                Int      @id @default(autoincrement())
+  uuid              String
+  politicianUuid    String
+  asset             String
+  type              String
+  date              String
+  notification_date String
+  amount            String
+  capital_gains     Boolean
+  owner             String?
+  details           String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  financialDisclosureReportUuid String
+  financialDisclosureReport     FinancialDisclosureReport @relation(fields: [financialDisclosureReportUuid], references: [uuid])
+}
+
+model FinancialDisclosureReport {
+  id             Int           @id @default(autoincrement())
+  uuid           String        @unique
+  politicianUuid String
+  year           Int
+  filingDate     String
+  filingType     String
+  documentId     String        @unique
+  reportUrl      String
+  transactions   Transaction[]
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  politician Politician @relation(fields: [politicianUuid], references: [uuid])
+}

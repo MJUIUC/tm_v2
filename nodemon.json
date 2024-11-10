@@ -1,0 +1,10 @@
+{
+  "watch": ["src"],
+  "ext": "js,ts,json",
+  "ignore": ["node_modules", "dist"],
+  "exec": "ts-node ./src/main/Index.ts",
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "delay": 1000
+}
